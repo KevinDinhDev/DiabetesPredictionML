@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, send_from_directory
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import LabelEncoder, StandardScaler
@@ -28,6 +28,21 @@ data_stats = {
     "bmi": 29.59,
     "age": 53.53  # You can add more defaults for any missing feature
 }
+
+# Serve the CSS file from the templates folder
+@app.route('/style.css')
+def serve_css():
+    return send_from_directory('templates', 'style.css')  # Serve from templates folder
+
+# Serve the CSS file from the templates folder
+@app.route('/index.css')
+def serve_css():
+    return send_from_directory('templates', 'index.css')  # Serve from templates folder
+
+# Serve the images from the public folder
+@app.route('/public/<filename>')
+def serve_image(filename):
+    return send_from_directory('public', filename)
 
 # Define the home route
 @app.route('/')
