@@ -31,12 +31,12 @@ data_stats = {
 
 # Serve the CSS file from the templates folder
 @app.route('/style.css')
-def serve_css():
+def serve_style_csscss():
     return send_from_directory('templates', 'style.css')  # Serve from templates folder
 
 # Serve the CSS file from the templates folder
 @app.route('/index.css')
-def serve_css():
+def serve_index_css():
     return send_from_directory('templates', 'index.css')  # Serve from templates folder
 
 # Serve the images from the public folder
