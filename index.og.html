@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Health Data Prediction Form for diabetes risk assessment based on health parameters.">
+    <meta name="keywords" content="diabetes, health prediction, HbA1c, cholesterol, triglycerides">
+    <meta name="author" content="Nhu Truong">
+    <meta property="og:title" content="Diabetes Prediction Form">
+    <meta property="og:description" content="Predict diabetes risk based on health data including HbA1c, cholesterol, BMI, and more.">
+    <meta property="og:image" content="image_url_here">
+    <meta property="og:url" content="website_url_here">
+    <meta name="robots" content="index, follow">
+    <title>Diabetes Prediction Form</title>
+<style>
+    /* Home Select Form Styling */
+    .home-select {
+        max-width: 800px;
+        margin: 50px auto;
+        padding: 30px;
+        background-color: #fff;
+        border-radius: 15px;
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+        border: 2px solid #f1f8ff;
+    }
+
+    .home-select h1 {
+        text-align: center;
+        color: #4CAF50;
+        font-size: 30px;
+        margin-bottom: 30px;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    /* Form Group */
+    .home-select .form-group {
+        margin-bottom: 20px;
+    }
+
+    /* Labels */
+    .home-select label {
+        display: block;
+        margin-bottom: 6px; /* Reduced margin for closer alignment */
+        font-weight: 500;
+        color: #555;
+        font-size: 16px;
+        text-align: left; /* Aligns labels to the top-left */
+    }
+
+    /* Input Fields and Select Boxes */
+    .home-select input[type="number"],
+    .home-select input[type="text"],
+    .home-select select {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #ddd;
+        border-radius: 12px;
+        font-size: 16px;
+        background-color: #f9f9f9;
+        transition: border-color 0.3s ease;
+        box-sizing: border-box;
+    }
+
+    /* Equal Length and Focus State */
+    .home-select input[type="number"]:focus,
+    .home-select input[type="text"]:focus,
+    .home-select select:focus {
+        border-color: #4CAF50;
+        outline: none;
+        background-color: #f2fff4; /* Soft green on focus */
+    }
+
+    /* Button */
+    .home-select button {
+        width: 100%;
+        padding: 14px;
+        background-color: #ff8d58;
+        color: white;
+        border: none;
+        border-radius: 12px;
+        font-size: 18px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    /* Button Hover State */
+    .home-select button:hover {
+        background-color: #ff7043;
+        transform: scale(1.05);
+    }
+
+    /* Result Box */
+    .home-select .result-box {
+        margin-top: 30px;
+        padding: 20px;
+        background-color: #e9f7f4;
+        border: 2px solid #4CAF50;
+        border-radius: 6px;
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+        color: #333;
+        display: none;
+        animation: fadeIn 0.5s ease;
+    }
+
+    /* FadeIn Animation */
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+</style>
+
+    
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Health Data Prediction Form</h1>
+        <form id="healthDataForm">
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select id="gender" name="gender" required>
+                    <option value="M">Male</option>
+                    <option value="F">Female</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input type="number" id="age" name="age" min="1" step="any" required>
+            </div>
+
+            <div class="form-group">
+                <label for="urea">Urea</label>
+                <input type="number" id="urea" name="urea" step="any" required>
+            </div>
+
+            <div class="form-group">
+                <label for="creatinine">Creatinine</label>
+                <input type="number" id="creatinine" name="creatinine" step="any" required>
+            </div>
+
+            <div class="form-group">
+                <label for="hba1c">HbA1c</label>
+                <input type="number" id="hba1c" name="hba1c" step="any" required>
+            </div>
+
+            <div class="form-group">
+                <label for="cholesterol">Cholesterol</label>
+                <input type="number" id="cholesterol" name="cholesterol" step="any" required>
+            </div>
+
+            <div class="form-group">
+                <label for="tg">Triglycerides (TG)</label>
+                <input type="number" id="tg" name="tg" step="any" required>
+            </div>
+
+            <div class="form-group">
+                <label for="hdl">HDL</label>
+                <input type="number" id="hdl" name="hdl" step="any" required>
+            </div>
+
+            <div class="form-group">
+                <label for="ldl">LDL</label>
+                <input type="number" id="ldl" name="ldl" step="any" required>
+            </div>
+
+            <div class="form-group">
+                <label for="vldl">VLDL</label>
+                <input type="number" id="vldl" name="vldl" step="any" required>
+            </div>
+
+            <div class="form-group">
+                <label for="bmi">BMI</label>
+                <input type="number" id="bmi" name="bmi" step="any" required>
+            </div>
+
+            <button type="submit">Predict</button>
+        </form>
+
+        <div class="result-box" id="resultBox">Prediction will appear here.</div>
+    </div>
+
+    <script>
+        document.getElementById("healthDataForm").addEventListener("submit", async function(event) {
+            event.preventDefault(); 
+
+            const formData = {
+                gender: document.getElementById("gender").value,
+                age: document.getElementById("age").value,
+                urea: document.getElementById("urea").value,
+                creatinine: document.getElementById("creatinine").value,
+                hba1c: document.getElementById("hba1c").value,
+                cholesterol: document.getElementById("cholesterol").value,
+                tg: document.getElementById("tg").value,
+                hdl: document.getElementById("hdl").value,
+                ldl: document.getElementById("ldl").value,
+                vldl: document.getElementById("vldl").value,
+                bmi: document.getElementById("bmi").value,
+            };
+
+            try {
+                console.log("Form Data Sent to Server:", formData);
+
+                const response = await fetch("/predict", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(formData),
+                });
+
+                const data = await response.json();
+
+                console.log("Response Data from Server:", data);
+
+                const resultBox = document.getElementById("resultBox");
+                if (response.ok && data.prediction) {
+                    resultBox.textContent = "Prediction: " + data.prediction;
+                    resultBox.style.display = "block";
+                } else {
+                    resultBox.textContent = "Error in prediction";
+                    resultBox.style.display = "block";
+                    console.error("Error in response:", data);
+                }
+            } catch (error) {
+                const resultBox = document.getElementById("resultBox");
+                resultBox.textContent = "Prediction failed. Check console for details.";
+                resultBox.style.display = "block";
+                console.error("Fetch Error:", error);
+            }
+        });
+    </script>
+
+</body>
+</html>
